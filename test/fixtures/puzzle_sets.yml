@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: puzzle_sets
+#
+#  id            :integer          not null, primary key
+#  center_letter :string
+#  other_letters :string
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  center_letter: MyString
+  other_letters: MyString
+
+two:
+  center_letter: MyString
+  other_letters: MyString
