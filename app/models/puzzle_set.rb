@@ -29,6 +29,35 @@ class PuzzleSet < ActiveRecord::Base
     self[:other_letters] = upperCaseAlphabetical
   end
 
+  def query_dictionary
+    # Inspects the word dictionary (in cache) using self's letters
+    solutions = []
+    
+    Rails.cache.read("dictionary_words").each do |candidateWord|
+
+      extraneousChars = candidateWord
+      (self.center_letter + self.other_letters).split(//).each do |char|
+        extraneousChars = extraneousChars.gsub(char,'')
+      end
+      # If there are any chars leftover, it's not valid
+      next if extraneousChars.size > 0
+
+      # At this point we know candidateWord has only desired letters
+      
+      # Check score
+      usesAllChars = true # assume true
+      (self.center_letter + self.other_letters).split(//).each do |char|
+        usesAllChars = usesAllChars & candidateWord.include?(char)
+      end
+      score = usesAllChars ? 3 : 1
+
+      # Attach solution
+      solutions.push( [candidateWord, score] )
+    end
+    return solutions
+  end
+
+  # Validation support
   def has_unique_letters
     # Can be assumed that :center_letter and :other_letters are upcase
     #  due to their setters above

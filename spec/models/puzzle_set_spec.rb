@@ -84,4 +84,23 @@ RSpec.describe PuzzleSet, type: :model do
     pSet.other_letters = "abcdef" 
     expect( pSet ).to be_valid
   end
+
+  scenario "query_dictionary can successfuly solve the puzzle" do
+    # This uses the words_dev.txt word dictionary, loaded into
+    #  cache for non-production environments
+    
+    pSet = PuzzleSet.new
+    pSet.center_letter = "p"
+    pSet.other_letters = "uarity" 
+
+    solution = pSet.query_dictionary
+
+    # Verify, based on the hand crafted words_dev.txt
+    expect( solution.size ).to eq 3
+    # The highest scored word shall appear first
+    expect( solution[0] ).to eq ["pituitary".upcase,3] #The '3' is the words score
+    # Subsequent solutions shall appear alphabetically
+    expect( solution[1] ).to eq ["parity".upcase,1]
+    expect( solution[2] ).to eq ["purity".upcase,1]
+  end
 end
