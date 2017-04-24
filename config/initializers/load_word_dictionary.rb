@@ -4,7 +4,10 @@ allowableChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(//)
 allowableWords = []
 
 # Smaller file used for test/dev etc.
-wordFile = Rails.env.production? ? 'vendor/assets/words.txt' : 'vendor/assets/words_dev.txt'
+dictLocation = 'vendor/assets/'
+wordFile = Rails.env.production? ? dictLocation + 'words.txt' : dictLocation + 'words_dev.txt'
+# ... or for dev/test purposes, 'export PUZZLE_DICT=words.txt'
+wordFile = ENV['PUZZLE_DICT'] ? dictLocation + ENV['PUZZLE_DICT'] : wordFile
 
 File.open( wordFile ).each do |line|
   next if line.nil?

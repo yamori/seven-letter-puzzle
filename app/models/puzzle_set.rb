@@ -56,7 +56,8 @@ class PuzzleSet < ActiveRecord::Base
     end
     
     # Sort the solutions, first by score then alphabetize the words
-    solutions = solutions.sort{|a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (b[1] <=> a[1]) }
+    #solutions = solutions.sort{|a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (b[1] <=> a[1]) }
+    solutions = solutions.sort{|a,b| (a[1] <=> b[1]) == 0 ? (b[0].length == a[0].length ? (a[0] <=> b[0]) : (b[0].length <=> a[0].length)) : (b[1] <=> a[1]) }
 
     return solutions
   end
@@ -73,6 +74,7 @@ class PuzzleSet < ActiveRecord::Base
 
     if uniqCharCount < originalCharCount
       errors.add(:other_letters, "all 7 letters must be unique")
+      errors.add(:center_letter, "all 7 letters must be unique")
     end
   end
 end
