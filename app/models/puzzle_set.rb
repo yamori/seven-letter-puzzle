@@ -16,8 +16,8 @@ class PuzzleSet < ActiveRecord::Base
   validates :other_letters, length: { is: 6 }
   validate :has_unique_letters
 
-
-  #  Rails.cache.read("dictionary_words").size
+  # Associations
+  has_many :puzzle_solutions, dependent: :destroy
 
   def center_letter=(val)
     # Make uppercase
