@@ -20,10 +20,12 @@ class PuzzleSet < ActiveRecord::Base
   #  Rails.cache.read("dictionary_words").size
 
   def center_letter=(val)
+    # Make uppercase
     self[:center_letter] = val.upcase
   end
 
   def other_letters=(val)
+    # Make uppercase and alphabetize
     upperCase = val.upcase
     upperCaseAlphabetical = upperCase.chars.sort.join
     self[:other_letters] = upperCaseAlphabetical
@@ -35,6 +37,7 @@ class PuzzleSet < ActiveRecord::Base
     
     Rails.cache.read("dictionary_words").each do |candidateWord|
 
+      # Scheme is to eliminate valid chars, and what's left is incorrect
       extraneousChars = candidateWord
       (self.center_letter + self.other_letters).split(//).each do |char|
         extraneousChars = extraneousChars.gsub(char,'')
@@ -55,8 +58,7 @@ class PuzzleSet < ActiveRecord::Base
       solutions.push( [candidateWord, score] )
     end
     
-    # Sort the solutions, first by score then alphabetize the words
-    #solutions = solutions.sort{|a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (b[1] <=> a[1]) }
+    # Sort the solutions: first by score, the word length, then alphabetize the words
     solutions = solutions.sort{|a,b| (a[1] <=> b[1]) == 0 ? (b[0].length == a[0].length ? (a[0] <=> b[0]) : (b[0].length <=> a[0].length)) : (b[1] <=> a[1]) }
 
     return solutions
