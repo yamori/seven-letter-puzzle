@@ -48,4 +48,5 @@ RSpec.describe PuzzleSolution, type: :model do
     pSet.destroy
     expect( PuzzleSolution.all.size ).to eq 0
   end
+
 end

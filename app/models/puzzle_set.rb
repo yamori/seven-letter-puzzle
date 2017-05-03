@@ -19,6 +19,10 @@ class PuzzleSet < ActiveRecord::Base
   # Associations
   has_many :puzzle_solutions, dependent: :destroy
 
+  # Callbacks
+  after_save :query_dictionary_and_persist_solutions
+  #after_create :query_dictionary_and_persist_solutions
+
   def center_letter=(val)
     # Make uppercase
     self[:center_letter] = val.upcase
@@ -31,7 +35,23 @@ class PuzzleSet < ActiveRecord::Base
     self[:other_letters] = upperCaseAlphabetical
   end
 
-  def query_dictionary
+  def self.find_or_create_by(center_letter, other_letters)
+    # Overriding this method to work with the alphabetization of other_letters
+    pSet = PuzzleSet.new(center_letter: center_letter, other_letters: other_letters)
+    existing_pSet = PuzzleSet.where(center_letter: pSet.center_letter, other_letters: pSet.other_letters)
+
+    # The important bit
+    if existing_pSet.size>0
+      return existing_pSet.first
+    else
+      pSet.save
+      return pSet
+    end
+  end
+
+  private
+
+  def query_dictionary_and_persist_solutions
     # Inspects the word dictionary (in cache) using self's letters
     solutions = []
     
@@ -60,6 +80,11 @@ class PuzzleSet < ActiveRecord::Base
     
     # Sort the solutions: first by score, the word length, then alphabetize the words
     solutions = solutions.sort{|a,b| (a[1] <=> b[1]) == 0 ? (b[0].length == a[0].length ? (a[0] <=> b[0]) : (b[0].length <=> a[0].length)) : (b[1] <=> a[1]) }
+
+    # Persist each solution
+    solutions.each do |solution|
+      self.puzzle_solutions.create(word: solution[0], score: solution[1])
+    end
 
     return solutions
   end
