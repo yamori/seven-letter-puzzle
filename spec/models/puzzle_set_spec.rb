@@ -85,8 +85,7 @@ RSpec.describe PuzzleSet, type: :model do
     expect( pSet ).to be_valid
   end
 
-  scenario "query_dictionary can successfuly solve the puzzle" do
-#TODO 86 the query_dictionary metehod, and instead interate over the associate puzzle_solutions
+  scenario "when persisting, can successfuly solve the puzzle" do
     # This uses the words_dev.txt word dictionary, loaded into
     #  cache for non-production environments
     
@@ -113,22 +112,23 @@ RSpec.describe PuzzleSet, type: :model do
     expect(PuzzleSolution.all.size).to eq 0
 
     # This assumes the words_dev.txt dictionary is loaded
-    pSet = PuzzleSet.find_or_create_by('f', 'luvent')
+    params = Hash["center_letter" => 'f', "other_letters" => 'luvent']
+    pSet = PuzzleSet.find_or_create_by(params)
     expect(pSet.puzzle_solutions.size).not_to eq 0
     expect(PuzzleSolution.all.size).not_to eq 0
   end
 
   scenario "existing (and valid) puzzle_set does not create any new puzzle_solution records" do
     # Persist some data
-    singleChar = 'f'
-    otherChars = 'luvent'
-    pSet = PuzzleSet.find_or_create_by(singleChar, otherChars)
+    params = Hash["center_letter" => 'f', "other_letters" => 'luvent']
+    pSet = PuzzleSet.find_or_create_by(params)
     expect(PuzzleSet.all.size).to eq 1
     numberSolutions = PuzzleSolution.all.size
     expect(numberSolutions).not_to eq 0
 
     # Try to submit again. (letters shuffled intentionally)
-    pSet_prime = PuzzleSet.find_or_create_by(singleChar, 'ulvent')
+    params2 = Hash["center_letter" => params['center_letter'], "other_letters" => 'ulvent']
+    pSet_prime = PuzzleSet.find_or_create_by(params2)
     expect(PuzzleSet.all.size).to eq 1
     expect(PuzzleSolution.all.size).to eq numberSolutions
     expect(pSet_prime.puzzle_solutions.size).to eq numberSolutions
@@ -140,7 +140,8 @@ RSpec.describe PuzzleSet, type: :model do
     expect(PuzzleSolution.all.size).to eq 0
 
     # Attempt to create invalid pSet
-    pSet = PuzzleSet.find_or_create_by('f', 'luv')
+    params = Hash["center_letter" => 'f', "other_letters" => 'luv']
+    pSet = PuzzleSet.find_or_create_by(params)
     expect(PuzzleSolution.all.size).to eq 0
     expect(PuzzleSet.all.size).to eq 0
   end

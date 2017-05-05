@@ -1,14 +1,7 @@
 class PuzzleSetController < ApplicationController
 
   def query
-
-    pSet = PuzzleSet.new(puzzle_set_params)
-
-    if pSet.valid?
-      @solutions = pSet.query_dictionary
-    else
-      @solutions = []
-    end
+    @puzzleSet = PuzzleSet.find_or_create_by(puzzle_set_params)
 
     respond_to do |format|
       format.js

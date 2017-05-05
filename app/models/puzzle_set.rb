@@ -21,7 +21,6 @@ class PuzzleSet < ActiveRecord::Base
 
   # Callbacks
   after_save :query_dictionary_and_persist_solutions
-  #after_create :query_dictionary_and_persist_solutions
 
   def center_letter=(val)
     # Make uppercase
@@ -35,9 +34,9 @@ class PuzzleSet < ActiveRecord::Base
     self[:other_letters] = upperCaseAlphabetical
   end
 
-  def self.find_or_create_by(center_letter, other_letters)
+  def self.find_or_create_by(params)
     # Overriding this method to work with the alphabetization of other_letters
-    pSet = PuzzleSet.new(center_letter: center_letter, other_letters: other_letters)
+    pSet = PuzzleSet.new(params)
     existing_pSet = PuzzleSet.where(center_letter: pSet.center_letter, other_letters: pSet.other_letters)
 
     # The important bit

@@ -1,0 +1,5 @@
+<% puts '###: ' + puzzleSet.errors.messages[ symb ].inspect %>
+<% ((puzzleSet.errors.any? && puzzleSet.errors.messages.key?( symb )) ? puzzleSet.errors.messages[ symb ] : []).each do |msg| %>
+  <% puts msg %>
+  <p><%= msg %></p>
+<% end %>

@@ -1,7 +1,8 @@
 <h1>Welcome#index</h1>
-<p id="sub_banner">Find me in app/views/welcome/index.html.erb</p>
 <%= form_for @puzzleSet, url: puzzleSet_path, remote: true, html: {method: "post"} do |f| %>
+  <div id="center_letter_errors"></div>
   <%= f.text_field :center_letter %>
+  <div id="other_letters_errors"></div>
   <%= f.text_field :other_letters %>
   <%= f.submit "Submit" %>
 <% end %>
