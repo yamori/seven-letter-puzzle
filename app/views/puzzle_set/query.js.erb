@@ -2,5 +2,5 @@
 $("#puzzleSet_target").html("<%= escape_javascript(render partial: 'puzzle_answer_list', locals: {puzzleSet: @puzzleSet} ) %>");
 
 // Posting respective error messages
-$("#center_letter_errors").html("<%= escape_javascript(render partial: 'center_letter_errors', locals: {puzzleSet: @puzzleSet} ) %>");
-$("#other_letters_errors").html("<%= escape_javascript(render partial: 'other_letters_errors', locals: {puzzleSet: @puzzleSet, symb: :other_letters} ) %>");
+$("#center_letter_errors").html("<%= escape_javascript(render partial: 'letters_errors', locals: {puzzleSet: @puzzleSet, symb: :center_letter} ) %>");
+$("#other_letters_errors").html("<%= escape_javascript(render partial: 'letters_errors', locals: {puzzleSet: @puzzleSet, symb: :other_letters} ) %>");

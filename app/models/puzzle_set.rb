@@ -24,14 +24,19 @@ class PuzzleSet < ActiveRecord::Base
 
   def center_letter=(val)
     # Make uppercase
-    self[:center_letter] = val.upcase
+    self[:center_letter] = val.delete(' ').upcase
   end
 
   def other_letters=(val)
     # Make uppercase and alphabetize
-    upperCase = val.upcase
+    upperCase = val.delete(' ').upcase
     upperCaseAlphabetical = upperCase.chars.sort.join
     self[:other_letters] = upperCaseAlphabetical
+  end
+
+  def puzzle_solutions_ordered
+    # Uset his to get the puzzle_solutions, but with the three-way ordering scheme applied
+    return self.puzzle_solutions.sort{|a,b| (a.score <=> b.score) == 0 ? (b.word.length == a.word.length ? (a.word <=> b.word) : (b.word.length <=> a.word.length)) : (b.score <=> a.score) }
   end
 
   def self.find_or_create_by(params)

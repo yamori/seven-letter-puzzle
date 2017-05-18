@@ -1,5 +1,0 @@
-<% puts '!!!! ' + puzzleSet.errors.messages.inspect %>
-<% puts '!!!! ' + puzzleSet.errors.messages[:center_letter].inspect %>
-<% ((puzzleSet.errors.any? && puzzleSet.errors.messages.key?(:center_letter)) ? puzzleSet.errors.messages[:center_letter] : []).each do |msg| %>
-  <p><%= msg %></p>
-<% end %>
