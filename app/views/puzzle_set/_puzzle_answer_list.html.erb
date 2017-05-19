@@ -1,3 +1,17 @@
-<% puzzleSet.puzzle_solutions_ordered.each do |puzzle_solution| %>
-  <p><%= "#{puzzle_solution.word} : #{puzzle_solution.score}" %></p>
+<% if !puzzleSet.puzzle_solutions_ordered.nil? && puzzleSet.puzzle_solutions_ordered.size>0 %>
+  <table class="striped">
+    <thead>
+      <tr>
+        <th>Word</th><th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% puzzleSet.puzzle_solutions_ordered.each do |puzzle_solution| %>
+        <tr>
+          <td><%= "#{puzzle_solution.word}" %></td>
+          <td><%= "#{puzzle_solution.score}" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 <% end %>

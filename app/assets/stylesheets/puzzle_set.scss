@@ -1,3 +1,19 @@
 // Place all the styles related to the puzzle_set controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.letter_text_field {
+  text-align: center;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.warning_notice {
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-color: #faebcc;
+  padding: 6px 12px;
+  margin-bottom: 12px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+}

@@ -1,9 +1,25 @@
-<h1>Welcome#index</h1>
-<%= form_for @puzzleSet, url: puzzleSet_path, remote: true, html: {method: "post"} do |f| %>
-  <div id="center_letter_errors"></div>
-  <%= f.text_field :center_letter %>
-  <div id="other_letters_errors"></div>
-  <%= f.text_field :other_letters %>
-  <%= f.submit "Submit" %>
-<% end %>
-<div id="puzzleSet_target"></div>
+<div class="row">
+  <div class="col s12 offset-m2 m8 offset-l3 l6">
+
+    <h1 class="center-align">Solver</h1>
+    <h3 class="center-align">1+6 Letter Puzzle</h3>
+    <%= form_for @puzzleSet, url: puzzleSet_path, remote: true, html: {method: "post"} do |f| %>
+      <div id="center_letter_errors"></div>
+      <%= f.text_field :center_letter, class: "letter_text_field", placeholder: "(one letter)" %>
+      <div id="other_letters_errors"></div>
+      <%= f.text_field :other_letters, class: "letter_text_field", placeholder: "(six letters)" %>
+      <div class="center-align">
+        <%= f.submit "Solve!", class: "btn-large waves-effect waves-light" %>
+      </div>
+    <% end %>
+    <div id="puzzleSet_target"></div>
+
+  </div>
+</div>
+
+<script>
+  $(document).ready( function() {
+    // Need to do this after page load because ... Materialize
+    $(".letter_text_field").css("fontSize","200%");
+  });
+</script>
