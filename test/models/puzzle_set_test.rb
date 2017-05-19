@@ -7,6 +7,7 @@
 #  other_letters :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  total_score   :integer
 #
 
 require 'test_helper'

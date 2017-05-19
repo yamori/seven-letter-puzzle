@@ -37,13 +37,15 @@ RSpec.describe PuzzleSolution, type: :model do
   # Associations
   
   scenario "belongs to puzzle_set" do
-    pSet = PuzzleSet.create(center_letter: "A", other_letters: "BCDEFG")
+    # This letter combination doesn't hit on anything in the dev word bank
+    pSet = PuzzleSet.find_or_create_by(center_letter: "A", other_letters: "BCDEFG")
     sol = PuzzleSolution.create(puzzle_set_id: pSet.id, score: 1, word: "ABCDEFG")
     expect( pSet.puzzle_solutions.size).to eq 1
   end
 
   scenario "destroy dependent puzzle_set" do
-    pSet = PuzzleSet.create(center_letter: "A", other_letters: "BCDEFG")
+    # This letter combination doesn't hit on anything in the dev word bank
+    pSet = PuzzleSet.find_or_create_by(center_letter: "A", other_letters: "BCDEFG")
     sol = PuzzleSolution.create(puzzle_set_id: pSet.id, score: 1, word: "ABCDEFG")
     pSet.destroy
     expect( PuzzleSolution.all.size ).to eq 0

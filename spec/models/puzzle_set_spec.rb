@@ -7,6 +7,7 @@
 #  other_letters :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  total_score   :integer
 #
 
 require 'rails_helper'
@@ -144,5 +145,36 @@ RSpec.describe PuzzleSet, type: :model do
     pSet = PuzzleSet.find_or_create_by(params)
     expect(PuzzleSolution.all.size).to eq 0
     expect(PuzzleSet.all.size).to eq 0
+  end
+
+  scenario "has total_score" do
+    score = 3
+    pSet = PuzzleSet.new(total_score: score)
+    expect(pSet.total_score).to eq score
+  end
+
+  # Score is calculated for a new set
+  #  dynamically figure out score,
+  # when the record is queried again, the score is retrieved
+  scenario "total_score is calculated, persisted, and retrieved accordingly" do
+    firstLetter = 'f'
+    otherLetters = 'luvent'
+    pSet = PuzzleSet.find_or_create_by(center_letter: firstLetter, other_letters: otherLetters)
+    # Verify
+    expect(pSet).to be_valid
+    expect(pSet.puzzle_solutions.size).not_to eq 0
+    
+    # Dynamically calculate score
+    actualScore = 0
+    pSet.puzzle_solutions.each do |pSol|
+      actualScore += pSol.score
+    end 
+
+    # Verify the score
+    expect(pSet.total_score).to eq actualScore
+
+    # Query the same PuzzleSet, ensure total_score was persisted, then loaded
+    pSetPrime = PuzzleSet.find_or_create_by(center_letter: firstLetter, other_letters: otherLetters)
+    expect(pSetPrime.total_score).to eq actualScore
   end
 end

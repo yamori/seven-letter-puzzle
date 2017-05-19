@@ -7,6 +7,7 @@
 #  other_letters :string
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  total_score   :integer
 #
 
 class PuzzleSet < ActiveRecord::Base
@@ -56,8 +57,15 @@ class PuzzleSet < ActiveRecord::Base
   private
 
   def query_dictionary_and_persist_solutions
+    # If solutions have already been queried, total_score will not be nil, ==> don't repeat query
+    puzzleSolutions = self.puzzle_solutions
+    if !self.total_score.nil?
+      return puzzleSolutions
+    end
+
     # Inspects the word dictionary (in cache) using self's letters
     solutions = []
+    totalScore = 0
     
     Rails.cache.read("dictionary_words").each do |candidateWord|
 
@@ -87,8 +95,15 @@ class PuzzleSet < ActiveRecord::Base
 
     # Persist each solution
     solutions.each do |solution|
+      # Calculate the total score
+      totalScore += solution[1]
+
+      # Persist solution
       self.puzzle_solutions.create(word: solution[0], score: solution[1])
     end
+
+    # Persist the total score
+    self.update(total_score: totalScore)
 
     return solutions
   end
