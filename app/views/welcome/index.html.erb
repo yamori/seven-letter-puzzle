@@ -9,7 +9,7 @@
       <div id="other_letters_errors"></div>
       <%= f.text_field :other_letters, class: "letter_text_field", placeholder: "(six letters)" %>
       <div class="center-align">
-        <%= f.submit "Solve!", class: "btn-large waves-effect waves-light" %>
+        <%= f.submit "Solve!", class: "btn-large waves-effect waves-light", id: "solve_button" %>
       </div>
     <% end %>
     <div id="puzzleSet_target"></div>
@@ -21,5 +21,12 @@
   $(document).ready( function() {
     // Need to do this after page load because ... Materialize
     $(".letter_text_field").css("fontSize","200%");
+  });
+
+  $("#solve_button").on("click", function() {
+    // When button is clicked, waiting for results
+    $("#center_letter_errors").html("");
+    $("#other_letters_errors").html("");
+    $("#puzzleSet_target").html("<div class='progress'><div class='indeterminate'></div></div>");
   });
 </script>
