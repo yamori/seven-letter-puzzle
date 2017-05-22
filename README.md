@@ -1,8 +1,8 @@
-== README
+# Solver: 1+6 Letter Puzzle
 
 Ruby-Rails app to solve a word puzzle which appears in newspapers frequently:
 * Take 1+6 different letters of the alphabet
-* Find words of length 5 or greater, using only these 1+6 letters
+* Find words of length 6 or greater, using only these 1+6 letters
 * The first ("1") letter must be used
 * Letters can be repeated with no restrictions
 * Scoring: 3 points for words which use all 1+6 letters, otherwise 1 point

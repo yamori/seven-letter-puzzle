@@ -66,7 +66,8 @@ class PuzzleSet < ActiveRecord::Base
     # Inspects the word dictionary (in cache) using self's letters
     solutions = []
     totalScore = 0
-    
+
+    # The cached dictionary_words contains words of length 6 or greater    
     Rails.cache.read("dictionary_words").each do |candidateWord|
 
       # Scheme is to eliminate valid chars, and what's left is incorrect
