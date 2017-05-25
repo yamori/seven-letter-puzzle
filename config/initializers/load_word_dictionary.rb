@@ -1,4 +1,5 @@
 puts "** Loading word dictionary into cache..."
+puts "** (this may take a while if using the prod dictionary)"
 
 allowableChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(//)
 allowableWords = []

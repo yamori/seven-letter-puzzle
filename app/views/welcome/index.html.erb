@@ -1,8 +1,31 @@
 <div class="row">
   <div class="col s12 offset-m2 m8 offset-l3 l6">
-
-    <h1 class="center-align">Solver</h1>
-    <h3 class="center-align">1+6 Letter Puzzle</h3>
+    <h2 class="center-align">Solver: 1+6 Letter Puzzle</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12 offset-m2 m5 offset-l3 l4">
+    <h5>Rules of the Puzzle</h5>
+    <ul class="browser-default">
+      <li>A puzzle set is seven different letters (ex. F+LVUENT)</li>
+      <li>Using only these letters, find as many words at least 6 letters long</li>
+      <li>The first letter ('F') must be used</li>
+      <li>Letters can be repeated</li>
+      <li>Scoring: 3 points for words using all 7 letters, 1 point for all other words</li>
+      <li>How many points can you get?</li>
+    </ul>
+  </div>
+  <div class="col s12 m3 l2">
+    <h5>Example Sets</h5>
+    <ul id="puzzle_set_examples" class="browser-default tooltipped" data-position="bottom" data-delay="50" data-tooltip="click to solve!">
+      <li><a  onclick="populateSolveForm('D','BERLMA');">D + BERLMA</a></li>
+      <li><a  onclick="populateSolveForm('F','LVUENT');">F + LVUENT</a></li>
+      <li><a  onclick="populateSolveForm('P','YRTIAU');">P + YRTIAU</a></li>
+    </ul>
+  </div>
+</div>
+<div class="row">
+  <div class="col s12 offset-m2 m8 offset-l3 l6">
     <%= form_for @puzzleSet, url: puzzleSet_path, remote: true, html: {method: "post"} do |f| %>
       <div id="center_letter_errors"></div>
       <%= f.text_field :center_letter, class: "letter_text_field", placeholder: "(one letter)" %>
@@ -21,6 +44,7 @@
   $(document).ready( function() {
     // Need to do this after page load because ... Materialize
     $(".letter_text_field").css("fontSize","200%");
+    $('.collapsible').collapsible();
   });
 
   $("#solve_button").on("click", function() {
