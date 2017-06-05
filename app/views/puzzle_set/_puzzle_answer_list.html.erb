@@ -15,4 +15,6 @@
       <% end %>
     </tbody>
   </table>
+<% elsif !puzzleSet.errors.any? && !puzzleSet.puzzle_solutions_ordered.nil? && puzzleSet.puzzle_solutions_ordered.size==0 %>
+  <h3 class="center-align">None found!</h3>
 <% end %>

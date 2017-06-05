@@ -4,6 +4,9 @@ function updateErrorsAndAnswers() {
   // Posting respective error messages
   $("#center_letter_errors").html("<%= escape_javascript(render partial: 'letters_errors', locals: {puzzleSet: @puzzleSet, symb: :center_letter} ) %>");
   $("#other_letters_errors").html("<%= escape_javascript(render partial: 'letters_errors', locals: {puzzleSet: @puzzleSet, symb: :other_letters} ) %>");
+  $('html, body').animate({
+    scrollTop: $("#puzzle_set_center_letter").offset().top
+  }, 600);
 }
 
 setTimeout(updateErrorsAndAnswers, 1000);
